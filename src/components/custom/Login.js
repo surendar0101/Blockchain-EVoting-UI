@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 class Login extends Component {
-
+    baseApiUrl = 'https://e-voting-application.herokuapp.com/api/';
     constructor(props){
         super(props)
         this.state = {
@@ -21,7 +21,7 @@ class Login extends Component {
         e.preventDefault();
         const { username, password } = this.state;
         console.log(username)
-        axios.post('http://localhost:8000/api/adminLogin', {
+        axios.post(`${this.baseApiUrl}adminLogin`, {
             username: username,
             password: password,
         })

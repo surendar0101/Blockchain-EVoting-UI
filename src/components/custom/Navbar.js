@@ -14,12 +14,12 @@ class Navbar extends Component {
     }
     render(){
 
-        if(this.state.location === "/" || this.state.location === "/choose"  || this.state.location === "/vote"  || this.state.location === "/login"){
+        if(this.state.location === "/home" || this.state.location === "/choose"  || this.state.location === "/vote"  || this.state.location === "/login"){
             return ( 
                 <nav className="nav-wrapper black darken-2">
                     <div className="container">
                         <a className="brand-logo">
-                            E-Election
+                            <NavLink to="/">BITS WILP E-Voting</NavLink>
                         </a>
                     </div>
                 </nav>
@@ -29,7 +29,8 @@ class Navbar extends Component {
                 <nav className="nav-wrapper black darken-2">
                     <div className="container">
                         <a className="brand-logo">
-                            E-Election
+                            <NavLink to="/">
+                                <img src="/images/logo.png" height="80" classStyle="margin-top: 5px;" /></NavLink>
                         </a>
                         <ul className="right">
                             <li><NavLink to="/">Home</NavLink></li>
