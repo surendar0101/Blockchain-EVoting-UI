@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Sidebar from './Sidebar';
 
 class NewElection extends Component {
     baseApiUrl = 'https://e-voting-application.herokuapp.com/api/';
@@ -38,20 +39,30 @@ class NewElection extends Component {
 
     render(){
         return(
-            <div className="container">
-                <h4>Create New Election</h4>
-                    <form onSubmit={this.handleSubmit}>
-                        <input type="text" id="election_name" name="election_name" onChange={this.handleInputChange} required/>
-                        <label htmlFor="name">Election Name</label><br></br>
-                        <input type="text" id="election_organizer" name="election_organizer" onChange={this.handleInputChange} required/>
-                        <label htmlFor="name">Election Organizer</label><br></br>
-                        <input type="password" id="election_password" name="election_password" onChange={this.handleInputChange} required/>
-                        <label htmlFor="name">Election Password</label><br></br><br></br>
-                        <button className="btn blue darken-2" type="submit" name="action">Submit
-                            <i className="material-icons right">send</i>
-                        </button>
-                    </form>
+            <div >
+                <Sidebar />
+                <div className="main-container">
+                <div className="card p-2 max-width-800">
+                <form onSubmit={this.handleSubmit} className="row">
+                    <div className="logo m-2 p-2 text-center">
+                    <h4>Create New Election</h4>
+                     </div>   
+                    <div className="form-control-group col-md-12 mt-4">
+                        <label htmlFor="name">Election Name</label>
+                        <input className="input-full-width size-large" type="text" id="username" name="username" onChange={this.handleInputChange} required/>
+                    </div>
+                    <div className="form-control-group col-md-12 mt-4">
+                    <button className="btn btn-primary input-full-width" type="submit" name="action">
+                        Create Election                        
+                    </button>
+                        </div>
+                    
+                    
+                </form>
+            </div> 
+                </div>
             </div>
+
         )
     }
 }

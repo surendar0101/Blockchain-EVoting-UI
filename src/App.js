@@ -10,6 +10,7 @@ import Choose from './components/custom/Choose';
 import { BrowserRouter, Route } from 'react-router-dom';
 import NewCandidate from './components/custom/NewCandidate';
 import Login from './components/custom/Login';
+import UserLogin from './components/custom/UserLogin';
 
 class App extends Component {
 
@@ -22,7 +23,8 @@ class App extends Component {
         <BrowserRouter>
             <div className="App">
                 <NavBar getVal={this.getVal}/>
-                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/" component={UserLogin} />
+                <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/home" component={Home} />
                 <Route exact path="/newelection" component={NewElection} />
                 <Route exact path="/elections" component={ElectionData} />

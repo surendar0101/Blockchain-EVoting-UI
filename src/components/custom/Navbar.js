@@ -13,32 +13,23 @@ class Navbar extends Component {
         })
     }
     render(){
-
-        if(this.state.location === "/home" || this.state.location === "/choose"  || this.state.location === "/vote"  || this.state.location === "/login"){
-            return ( 
-                <nav className="nav-wrapper black darken-2">
-                    <div className="container">
-                        <a className="brand-logo">
-                            <NavLink to="/">BITS WILP E-Voting</NavLink>
-                        </a>
-                    </div>
-                </nav>
-            )
+        console.info(window.location.pathname);
+        if(!window.location.pathname || window.location.pathname == '/'){
+            return false
         }else{
             return(
-                <nav className="nav-wrapper black darken-2">
-                    <div className="container">
-                        <a className="brand-logo">
-                            <NavLink to="/">
+                <div>
+                     <nav className="navbar navbar-expand-lg navbar-dark bg-dark pl-3 pr-3">
+        <div className="container-fluid">
+        <NavLink to="/dashboard" className="navbar navbar-expand-lg ">
                                 <img src="/images/logo.png" height="80" classStyle="margin-top: 5px;" /></NavLink>
-                        </a>
-                        <ul className="right">
-                            <li><NavLink to="/">Home</NavLink></li>
-                            <li><NavLink to="/newelection">New Election</NavLink></li>
-                            <li><NavLink to="/elections">Elections</NavLink></li>
-                        </ul>
-                    </div>
-                </nav>
+         
+            <div className="float-right">
+                <NavLink to="/" className="btn btn-outline-success" href="/" type="submit">Sign Out</NavLink>
+            </div>
+        </div>
+      </nav>
+                </div>
             )
         }
 
