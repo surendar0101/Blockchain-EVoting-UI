@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NewElection from './components/custom/NewElection';
 import NavBar from './components/custom/Navbar';
 import Home from './components/custom/Home';
+import Dashboard from './components/custom/Dashboard';
 import Vote from './components/custom/Vote';
 import VoteCount from './components/custom/VoteCount';
 import ElectionData from './components/custom/ElectionData';
@@ -21,7 +22,8 @@ class App extends Component {
         <BrowserRouter>
             <div className="App">
                 <NavBar getVal={this.getVal}/>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/home" component={Home} />
                 <Route exact path="/newelection" component={NewElection} />
                 <Route exact path="/elections" component={ElectionData} />
                 <Route exact path="/candidates/:id" component={NewCandidate} />

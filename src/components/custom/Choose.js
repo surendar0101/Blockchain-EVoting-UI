@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 class Choose extends Component {
-
+    baseApiUrl = 'https://e-voting-application.herokuapp.com/api/';
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +18,7 @@ class Choose extends Component {
     componentDidMount(){
         let currentComponent = this;
       
-        axios.get('http://localhost:8000/api/electionName', {})
+        axios.get(`${this.baseApiUrl}electionName`, {})
         .then(function(response){ 
             var data = response.data;
             currentComponent.setState({
