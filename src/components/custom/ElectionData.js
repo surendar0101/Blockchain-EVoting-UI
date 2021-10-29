@@ -18,7 +18,7 @@ class ElectionData extends Component {
     componentDidMount(){
         let currentComponent = this;
       
-        axios.get(`${this.baseApiUrl}electionName`, {})
+        axios.get(`${this.baseApiUrl}election/list`, {})
         .then(function(response){ 
             var data = response.data;
             currentComponent.setState({

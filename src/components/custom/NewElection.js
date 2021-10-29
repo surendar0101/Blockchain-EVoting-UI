@@ -23,7 +23,7 @@ class NewElection extends Component {
         e.preventDefault();
         const { election_name, election_organizer, election_password } = this.state;
         console.log(election_name);
-        axios.post(`${this.baseApiUrl}electionName`, {
+        axios.post(`${this.baseApiUrl}election`, {
             election_name: election_name,
             election_organizer: election_organizer,
             election_password: election_password

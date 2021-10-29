@@ -21,7 +21,7 @@ class Login extends Component {
         e.preventDefault();
         const { username, password } = this.state;
         console.log(username)
-        axios.post(`${this.baseApiUrl}adminLogin`, {
+        axios.post(`${this.baseApiUrl}admin/login`, {
             username: username,
             password: password,
         })
