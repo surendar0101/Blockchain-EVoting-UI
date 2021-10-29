@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import Election from '../../build/Election.json'
+import Sidebar from './Sidebar';
 
 
 class NewCandidate extends Component{
@@ -81,7 +82,10 @@ class NewCandidate extends Component{
 
     render(){
         return(
-            <div className="container">
+            <div >
+                <Sidebar />
+                <div className="main-container">
+                <div className="card p-2 max-width-800">
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required/>
                     <label htmlFor="name">Candidate Name</label><br></br>
@@ -91,7 +95,11 @@ class NewCandidate extends Component{
                         <i className="material-icons right">send</i>
                     </button>
                 </form>
-            </div>            
+            </div>  
+                </div>
+            </div>
+
+                      
         )
     }
 }

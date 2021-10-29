@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Sidebar from './Sidebar';
 
 class ElectionData extends Component {
     baseApiUrl = 'https://e-voting-application.herokuapp.com/api/';
@@ -53,27 +54,36 @@ class ElectionData extends Component {
     render(){
         const electionList = this.state.final.map(election => {
             return (
-                <div className="contact" key={election.election_id}>
-                    <li className="collection-item avatar">
-                        <i className="material-icons circle blue darken-2">ballot</i>
+                <div className="contact clearfix clear" key={election.election_id}>
+                    <li className="">
+                    <div className="pull-left">
+                    <i className="material-icons circle blue darken-2">ballot</i>
                         <p><b>{election.election_name}</b></p>
-                        <br></br>
-                        <Link to={"/candidates/" + election.election_id} className="title" onClick={this.handleInputChange}><button id={election.election_id} className="waves-effect waves-light btn yellow darken-3">Add candidate</button></Link>
+                        </div>
+                        <div className="pull-right">
+                        <Link to={"/candidates/" + election.election_id} className="title" onClick={this.handleInputChange}><button id={election.election_id} className="btn btn-primary">Add Voter</button></Link>
                         &nbsp;&nbsp;&nbsp;
-                        <Link to={"/voteCount/" + election.election_id} className="title" onClick={this.handleInputChange}><button id={election.election_id} className="waves-effect waves-light btn red darken-3">View vote Count</button></Link>
+                        <Link to={"/voteCount/" + election.election_id} className="title" onClick={this.handleInputChange}><button id={election.election_id} className="btn btn-secondary">View vote Count</button></Link>
+                        </div>
                         
                     </li>
                 </div>
             )
         }) 
         return(
-            <div className="container">
+            <div >
+                <Sidebar />
+                <div className="main-container">
+                <div className="card p-2 max-width-800">
                 <ul className="collection">
                     <li >
                         <h3>Elections</h3>
                     </li>
                         {electionList}
                 </ul>
+                </div>
+                
+                </div>
             </div>
         )
     }
