@@ -43,18 +43,18 @@ contract Election {
     uint public votersCount;
     uint public candidatesCount;
 
-    function addCandidate(uint _id, string memory _name, string memory _details) public {
+    function addCandidate(string memory _name, string memory _details) public {
         candidatesCount++;
-        electionCandidates[_id] = (Candidate(_id, _name, 0, _details));
+        electionCandidates[candidatesCount] = (Candidate(candidatesCount, _name, 0, _details));
     }
 
     function castVoteForCandidate(uint _candidate_id) private {
         electionCandidates[_candidate_id].voteCount ++;
     }
 
-    function addVoter(uint _id, string memory _userName, string memory _details) public {
+    function addVoter(string memory _userName, string memory _details) public {
         votersCount++;
-        voterList[_id] = Voter(_id, _userName, _details, false);
+        voterList[votersCount] = Voter(votersCount, _userName, _details, false);
     }
 
     function vote(uint _voterId, uint _candidateId) public {

@@ -23,9 +23,6 @@ class ElectionData extends Component {
         .then(function(response){ 
             var data = response.data;
             currentComponent.setState({
-                // election_name: data[0],
-                // election_organizer: data[1],
-                // election_id: data[2],
                 final: data
             })
         })
