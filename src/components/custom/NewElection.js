@@ -49,7 +49,7 @@ class NewElection extends Component {
                 <div className="card p-2 max-width-800">
                 <form onSubmit={this.handleSubmit} className="row">
                     <div className="logo m-2 p-2 text-center">
-                    <h4>Create New Election</h4>
+                    <h4>No Election Exists: Create a new one</h4>
                      </div>   
                     <div className="form-control-group col-md-12 mt-4">
                         <label htmlFor="name">Election Name</label>
