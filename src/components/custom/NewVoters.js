@@ -4,7 +4,7 @@ import Election from '../../build/Election.json'
 import Sidebar from './Sidebar';
 
 
-class NewCandidate extends Component {
+class NewVoters extends Component {
 
     async componentWillMount() {
         await this.loadWeb3()
@@ -93,15 +93,15 @@ class NewCandidate extends Component {
                 <Sidebar />
                 <div className="main-container">
                     <div className="card p-2">
-                        <h3 className="pb-2">Manage Candidates for BESCOM: Bengaluru</h3>
+                        <h3 className="pb-2">Manage Voters for BESCOM: Bengaluru</h3>
                         <form onSubmit={this.handleSubmit} className="row">
                         <div className="col-md-4">
-                                <input placeholder="Candidate Name" type="text" className="form-control mt-0" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required />
+                                <input placeholder="Voter Name" type="text" className="form-control mt-0" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required />
                             </div>
-                            <div className="col-md-5">
-                                <input placeholder="Candidate Description" type="text" className="form-control mt-0" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required />
+                            <div className="col-md-6">
+                                <input placeholder="Voter Description" type="text" className="form-control mt-0" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required />
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-2">
                                 <button className="btn btn-primary input-full-width btn-sm" type="submit" name="action">
                                     <i className="material-icons right" style={{position: 'relative', top: '7px'}}>add</i> <span>Add</span>
                                 </button>
@@ -113,10 +113,9 @@ class NewCandidate extends Component {
                             <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Candidate Name</th>
+                                        <th>Voter Name</th>
                                         <th>Description</th>
-                                        <th  className="forAdmin">Votes</th>
-                                        <th  className="forVoters">Actions</th>
+                                        <th  className="forAdmin">Casted Vote</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -124,29 +123,25 @@ class NewCandidate extends Component {
                                         <td>1</td>
                                         <td>Sunny</td>
                                         <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin">123 </td> {/* for admin*/}
-                                        <td className="forVoters"><button className="btn btn-primary">Vote</button></td> {/*-> for voters*/}
+                                        <td className="forAdmin"><i className="material-icons right">close</i> </td> {/* for admin*/}
                                     </tr>
                                     <tr>
-                                        <td>1</td>
+                                        <td>2</td>
                                         <td>Rahil</td>
                                         <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin">25 </td> {/* for admin*/}
-                                        <td className="forVoters"><button className="btn btn-primary">Vote</button></td> {/*-> for voters*/}
+                                        <td className="forAdmin"><i className="material-icons right">check</i> </td> {/* for admin*/}
                                     </tr>
                                     <tr>
-                                        <td>1</td>
+                                        <td>3</td>
                                         <td>Ramesh</td>
                                         <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin">30 </td> {/* for admin*/}
-                                        <td className="forVoters"><button className="btn btn-primary">Vote</button></td> {/*-> for voters*/}
+                                        <td className="forAdmin"><i className="material-icons right">close</i> </td> {/* for admin*/}
                                     </tr>
                                     <tr>
-                                        <td>1235</td>
+                                        <td>4</td>
                                         <td>Suresh</td>
                                         <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin">45 </td> {/* for admin*/}
-                                        <td className="forVoters"><button className="btn btn-primary">Vote</button></td> {/*-> for voters*/}
+                                        <td className="forAdmin"><i className="material-icons right">check</i> </td> {/* for admin*/}
                                     </tr>
                                 </tbody>
                             </table>
@@ -160,4 +155,4 @@ class NewCandidate extends Component {
     }
 }
 
-export default NewCandidate;
+export default NewVoters;
