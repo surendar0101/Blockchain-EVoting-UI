@@ -19,20 +19,16 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-
-        window.location.assign("/dashboard")
-
-
-        return false;
         const { username, password } = this.state;
-        console.log(username)
         axios.post(`${this.baseApiUrl}admin/login`, {
             username: username,
             password: password,
         })
         .then(function(response){ 
             if(response.data){
-                window.location.assign("/newelection")
+                localStorage.setItem('loggedInUser', username);
+                localStorage.setItem('userType', 'admin');
+                window.location.assign("/dashboard");
             }else{
                 alert('Incorrect Username or Password');
             }
@@ -40,10 +36,18 @@ class Login extends Component {
         .catch(function(err){
             console.error(err);
         });
+
+
+        // call admin login api
+            // returns bool
+            // save in localstorage
+            // redirect to dashboard
+
     }
 
 
     render(){
+        
         return(
             <div className="container mt-5 card p-4 max-width-800">
                 <form onSubmit={this.handleSubmit} className="row">
@@ -56,7 +60,7 @@ class Login extends Component {
                     </div>
                     <div className="form-control-group col-md-6 float-right mt-4">
                         <label htmlFor="name">Password</label>
-                        <input className="input-full-width size-large" type="password" id="username" name="username" onChange={this.handleInputChange} required/>
+                        <input className="input-full-width size-large" type="password" id="password" name="password" onChange={this.handleInputChange} required/>
                     </div>
                     <div className="form-control-group col-md-12  mt-4">
                         <label htmlFor="userType" className="mb-2">Select User Type</label>

@@ -61,9 +61,11 @@ class ElectionData extends Component {
                         <p><b>{election.election_name}</b></p>
                         </div>
                         <div className="pull-right">
-                        <Link to={"/candidates/" + election.election_id} className="title" onClick={this.handleInputChange}><button id={election.election_id} className="btn btn-primary">Add Voter</button></Link>
+                        <Link to={"/candidates/" + election.election_id} className="title" onClick={this.handleInputChange}>
+                            <button id={election.election_id} className="btn btn-primary">Manage Candidates</button></Link>
                         &nbsp;&nbsp;&nbsp;
-                        <Link to={"/voteCount/" + election.election_id} className="title" onClick={this.handleInputChange}><button id={election.election_id} className="btn btn-secondary">View vote Count</button></Link>
+                        <Link to={"/voters/" + election.election_id} className="title" onClick={this.handleInputChange}>
+                            <button id={election.election_id} className="btn btn-secondary">Manage Voters</button></Link>
                         </div>
                         
                     </li>

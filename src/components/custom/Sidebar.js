@@ -7,7 +7,6 @@ class Sidebar extends Component {
     }
 
     componentWillReceiveProps(){
-        console.log(this.props)
         this.setState({
             location: this.props.history.location.pathname
         })

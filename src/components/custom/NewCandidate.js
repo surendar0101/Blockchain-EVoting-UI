@@ -4,13 +4,14 @@ import Election from '../../build/Election.json'
 import Sidebar from './Sidebar';
 
 
-class NewCandidate extends Component{
+class NewCandidate extends Component {
 
     async componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockChain()
+        await this.getCandidates();
     }
-    
+
     async loadWeb3() {
         if (window.ethereum) {
             window.web3 = new Web3(window.ethereum)
@@ -23,7 +24,7 @@ class NewCandidate extends Component{
             window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
         }
     }
-    
+
 
     handleInputChange = (e) => {
         this.setState({
@@ -31,13 +32,13 @@ class NewCandidate extends Component{
         })
     }
 
-    async loadBlockChain(){
+    async loadBlockChain() {
         const web3 = window.web3
         const accounts = await web3.eth.getAccounts()
         this.setState({ account: accounts[0] })
         const networkId = await web3.eth.net.getId()
         const networkData = Election.networks[networkId]
-        if(networkData) {
+        if (networkData) {
             const election = new web3.eth.Contract(Election.abi, networkData.address)
             this.setState({ election })
         } else {
@@ -49,57 +50,78 @@ class NewCandidate extends Component{
         e.preventDefault();
         this.addCandidates();
     }
-    
+
     addCandidates() {
         console.log(this.state);
         this.setState({ loading: true })
-        this.state.election.methods.addCandidate(this.state.candidate_name, this.state.candidate_details, this.state.id).send({ from: this.state.account })
-        .once('receipt', (receipt) => {
-            console.log(receipt);
-          this.setState({ loading: false })
-          window.location.assign("/");
-        })
+        this.state.election.methods.addCandidate(this.state.candidate_name, this.state.id).send({ from: this.state.account })
+            .once('receipt', (receipt) => {
+                console.log(receipt);
+                this.setState({ loading: false })
+                window.location.assign("/");
+            })
     }
-    
+
+    async getCandidates() {
+        console.info('hello');
+        const candCount = await this.state.election.methods.candidates(1).call();
+        console.info('candCount', candCount);
+    }
+
     constructor(props) {
         super(props)
         this.state = {
-          account: '',
-          election: null,
-          candidate_name: null,
-          candidate_details: null,
-          id: null
+            account: '',
+            election: null,
+            candidate_name: null,
+            id: null
         }
-        this.addCandidates = this.addCandidates.bind(this)
+
+        this.addCandidates = this.addCandidates.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         let id = this.props.match.params.id;
         this.setState({
             id: id,
         })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div >
                 <Sidebar />
                 <div className="main-container">
-                <div className="card p-2 max-width-800">
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required/>
-                    <label htmlFor="name">Candidate Name</label><br></br>
-                    <input type="text" id="candidate_details" name="candidate_details" onChange={this.handleInputChange} required/>
-                    <label htmlFor="name">Candidate details</label><br></br><br></br>
-                    <button className="btn blue darken-2" type="submit" name="action">Submit
-                        <i className="material-icons right">send</i>
-                    </button>
-                </form>
-            </div>  
+                    <div className="card p-2 max-width-800">
+                        <form onSubmit={this.handleSubmit} className="row">
+                            <div className="col-md-9">
+                                <input placeholder="Candidate Name" type="text" className="form-control mt-0" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required />
+                            </div>
+                            <div className="col-md-3">
+                                <button className="btn btn-primary input-full-width btn-sm" type="submit" name="action">
+                                    <i className="material-icons right">add</i> <span>Add</span>
+                                </button>
+                            </div>
+
+                        </form>
+                        <div className="candidatesList">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Candidate Name</th>
+                                        <th>Voted</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-                      
+
         )
     }
 }

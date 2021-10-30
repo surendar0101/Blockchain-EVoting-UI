@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Web3 from 'web3';
 import Election from '../../build/Election.json'
 import { Link } from 'react-router-dom'
+import Sidebar from './Sidebar';
 
 class VoteCount extends Component {
 
@@ -102,13 +103,18 @@ class VoteCount extends Component {
             )
         }) 
         return(
-            <div className="container">
+            <div >
+                <Sidebar />
+                <div className="main-container">
+                <div className="card p-2 max-width-800">
                 <ul className="collection">
                     <li className="collection-item avatar">
                         <p className="title">Candidates</p>
                     </li>
                         {electionList}
                 </ul>
+            </div>  
+                </div>
             </div>
         )
     }

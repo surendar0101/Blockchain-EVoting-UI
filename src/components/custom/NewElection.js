@@ -8,9 +8,7 @@ class NewElection extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            election_name: '',
-            election_organizer: '',
-            election_password: '',
+            election_name: ''
         };
     }
 
@@ -22,15 +20,21 @@ class NewElection extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { election_name, election_organizer, election_password } = this.state;
+        const { election_name } = this.state;
         console.log(election_name);
         axios.post(`${this.baseApiUrl}election`, {
-            election_name: election_name,
-            election_organizer: election_organizer,
-            election_password: election_password
+            election_name: election_name
         })
         .then(function(response){ 
-            window.location.assign('/');
+            console.info(response);
+            if(response.data.election_id){
+            // election created - navigate to election list UI
+            alert(`Election ${response.data.election_name} created with id: ${response.data.election_id}`)
+            window.location.assign('/elections');
+            }else{
+                alert('Failed to create a new election!')
+            }
+            
         })
         .catch(function(err){
             console.error(err);
@@ -49,7 +53,7 @@ class NewElection extends Component {
                      </div>   
                     <div className="form-control-group col-md-12 mt-4">
                         <label htmlFor="name">Election Name</label>
-                        <input className="input-full-width size-large" type="text" id="username" name="username" onChange={this.handleInputChange} required/>
+                        <input className="input-full-width size-large" type="text" id="election_name" name="election_name" onChange={this.handleInputChange} required/>
                     </div>
                     <div className="form-control-group col-md-12 mt-4">
                     <button className="btn btn-primary input-full-width" type="submit" name="action">
