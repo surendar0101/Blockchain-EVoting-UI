@@ -66,3 +66,49 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+
+
+truffle migrate --reset
+truffle console
+
+Election.deployed().then((instance) => {app = instance});
+
+app.addCandidate(1, 'CANDIDATE1', 'Name is Surendar')
+app.addCandidate(2, 'CANDIDATE2', 'Name is Sunny')
+app.addCandidate(3, 'CANDIDATE3', 'Name is you know whom')
+
+app.candidatesCount()
+
+
+app.addVoter(1, 'VOTER_1', 'Name is Surendar')
+app.addVoter(2, 'VOTER_2', 'Name is Sunny')
+app.addVoter(3, 'VOTER_3', 'Name is you know whom')
+
+
+app.votersCount()
+
+
+
+ when loggedin as admin: // API 1: Login
+	// SOL 1- get list of election+candidates+voters
+	// if no election exists:
+		// View: Add election UI
+	// else
+		// View: Manage Election
+			//Manage Candidate
+				// Add Candidate
+					// SOL 2: Add candidate
+				// view list of candidates from SOL 1
+			// Manage Voters
+				// view list of Voters from SOL 1					
+					// API 2: Save Voter details in Blockchain
+					// SOL 3: Add Voters
+	
+
+
+ when logged in as voter
+	// SOL 4: get list of candidates+voter voted+election name
+
+

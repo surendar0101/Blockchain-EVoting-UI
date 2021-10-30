@@ -9,7 +9,6 @@ class NewCandidate extends Component {
     async componentWillMount() {
         await this.loadWeb3()
         await this.loadBlockChain()
-        await this.getCandidates();
     }
 
     async loadWeb3() {
@@ -41,6 +40,19 @@ class NewCandidate extends Component {
         if (networkData) {
             const election = new web3.eth.Contract(Election.abi, networkData.address)
             this.setState({ election })
+            const candCount = await this.state.election.methods.candidatesCount().call()
+            this.setState({ candCount })
+            console.log(`Candidate Count: ${candCount}`);
+            const candidates = []
+            for (var i = 1; i <= candCount; i++) {
+                const candidate = await election.methods.electionCandidates(i).call()
+                console.log(`Candidate: ${JSON.stringify(candidate)}`)
+                candidates.push(candidate);
+            }
+            this.setState({
+                candidates: [...this.state.candidates, candidates]
+            })
+            console.log(`Candidates List: ${JSON.stringify(this.state.candidates)   }`);
         } else {
             window.alert('Election contract not deployed to detected network.')
         }
@@ -51,21 +63,14 @@ class NewCandidate extends Component {
         this.addCandidates();
     }
 
-    addCandidates() {
-        console.log(this.state);
-        this.setState({ loading: true })
-        this.state.election.methods.addCandidate(this.state.candidate_name, this.state.id).send({ from: this.state.account })
+    async addCandidates() {
+        this.setState({ loading: true });
+        this.state.election.methods.addCandidate(this.state.candidate_name, this.state.id)
+            .send({ from: this.state.account })
             .once('receipt', (receipt) => {
-                console.log(receipt);
                 this.setState({ loading: false })
                 window.location.assign("/");
             })
-    }
-
-    async getCandidates() {
-        console.info('hello');
-        const candCount = await this.state.election.methods.candidates(1).call();
-        console.info('candCount', candCount);
     }
 
     constructor(props) {
@@ -74,6 +79,8 @@ class NewCandidate extends Component {
             account: '',
             election: null,
             candidate_name: null,
+            candidate_detail: null,
+            candidates: [],
             id: null
         }
 
