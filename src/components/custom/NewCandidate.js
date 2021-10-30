@@ -73,12 +73,6 @@ class NewCandidate extends Component {
             })
     }
 
-    async getCandidates() {
-        console.info('hello');
-        const candCount = await this.state.election.methods.candidatesCount().call()
-        console.info('candCount', candCount);
-    }
-
     constructor(props) {
         super(props)
         this.state = {
