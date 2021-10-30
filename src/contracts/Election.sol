@@ -60,7 +60,7 @@ contract Election {
     function vote(uint _voterId, uint _candidateId) public {
 
         require(_voterId > 0 && _voterId <= votersCount, 'Invalid voter id');
-        require(_candidateId > 0 && _candidateId <= _candidateId, 'Invalid candidate id');
+        require(_candidateId > 0 && _candidateId <= candidatesCount, 'Invalid candidate id');
 
         // Check for Double voting
         require(!voterList[_voterId].hasVoted, 'The Voter has already voted.');
