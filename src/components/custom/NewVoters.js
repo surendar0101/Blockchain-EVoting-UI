@@ -3,13 +3,13 @@ import Web3 from 'web3';
 import Election from '../../build/Election.json'
 import Sidebar from './Sidebar';
 
+import { loadBlockChain } from '../Utils';
 
 class NewVoters extends Component {
 
     async componentWillMount() {
-        await this.loadWeb3()
-        await this.loadBlockChain()
-        await this.getCandidates();
+        await this.loadWeb3();
+        await loadBlockChain(this);
     }
 
     async loadWeb3() {
@@ -32,41 +32,25 @@ class NewVoters extends Component {
         })
     }
 
-    async loadBlockChain() {
-        const web3 = window.web3
-        const accounts = await web3.eth.getAccounts()
-        this.setState({ account: accounts[0] })
-        const networkId = await web3.eth.net.getId()
-        const networkData = Election.networks[networkId]
-        if (networkData) {
-            const election = new web3.eth.Contract(Election.abi, networkData.address)
-            this.setState({ election })
-        } else {
-            window.alert('Election contract not deployed to detected network.')
-        }
-    }
+    
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.addCandidates();
+        this.addVoter();
     }
 
-    addCandidates() {
+    addVoter() {
         console.log(this.state);
         this.setState({ loading: true })
-        this.state.election.methods.addCandidate(this.state.candidate_name, this.state.id).send({ from: this.state.account })
+        this.state.election.methods.addVoter(this.state.voter_name.replace(/ /g,"_"), this.state.voter_details).send({ from: this.state.account })
             .once('receipt', (receipt) => {
-                console.log(receipt);
+                console.info(receipt);
                 this.setState({ loading: false })
-                window.location.assign("/");
+                this.resetForm();
+                loadBlockChain(this);
             })
     }
 
-    async getCandidates() {
-        console.info('hello');
-        const candCount = await this.state.election.methods.candidates(1).call();
-        console.info('candCount', candCount);
-    }
 
     constructor(props) {
         super(props)
@@ -77,7 +61,8 @@ class NewVoters extends Component {
             id: null
         }
 
-        this.addCandidates = this.addCandidates.bind(this);
+        this.addVoter = this.addVoter.bind(this);
+        this.resetForm = this.resetForm.bind(this);
     }
 
     componentDidMount() {
@@ -87,64 +72,73 @@ class NewVoters extends Component {
         })
     }
 
+    resetForm(){
+        this.setState({candidate_name: null});
+        this.setState({candidate_details: null});
+        this.setState({ key: Math.random() });
+    };
+
+
     render() {
+        // check if election data exists: else navigate to new elections
+        if (!localStorage.getItem('electionData')) {
+            window.location.assign('/newelection');
+            return false;
+        }
+        const electionData = JSON.parse(localStorage.getItem('electionData'));
         return (
-            <div >
+            <div key={this.state.key}>
                 <Sidebar />
                 <div className="main-container">
-                    <div className="card p-2">
-                        <h3 className="pb-2">Manage Voters for BESCOM: Bengaluru</h3>
+                    <div className="card p-4">
+                        <h3 className="pb-2">Manage Voters for {electionData.electionName}</h3>
                         <form onSubmit={this.handleSubmit} className="row">
-                        <div className="col-md-4">
-                                <input placeholder="Voter Name" type="text" className="form-control mt-0" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required />
+                            <div className="col-md-4">
+                                <input placeholder="Voter Name" type="text" className="form-control mt-0" id="voter_name" name="voter_name" onChange={this.handleInputChange} required />
                             </div>
-                            <div className="col-md-6">
-                                <input placeholder="Voter Description" type="text" className="form-control mt-0" id="candidate_name" name="candidate_name" onChange={this.handleInputChange} required />
+                            <div className="col-md-5">
+                                <input placeholder="Voter Description" type="text" className="form-control mt-0" id="voter_details" name="voter_details" onChange={this.handleInputChange} required />
                             </div>
-                            <div className="col-md-2">
+                            <div className="col-md-3">
                                 <button className="btn btn-primary input-full-width btn-sm" type="submit" name="action">
-                                    <i className="material-icons right" style={{position: 'relative', top: '7px'}}>add</i> <span>Add</span>
+                                    <i className="material-icons right" style={{ position: 'relative', top: '7px' }}>add</i> <span>Add</span>
                                 </button>
                             </div>
 
                         </form>
-                        <div className="candidatesList">
-                            <table className="pt-4 mt-4 table table-striped">
-                            <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Voter Name</th>
-                                        <th>Description</th>
-                                        <th  className="forAdmin">Casted Vote</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                        <td>1</td>
-                                        <td>Sunny</td>
-                                        <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin"><i className="material-icons right">close</i> </td> {/* for admin*/}
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Rahil</td>
-                                        <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin"><i className="material-icons right">check</i> </td> {/* for admin*/}
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Ramesh</td>
-                                        <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin"><i className="material-icons right">close</i> </td> {/* for admin*/}
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Suresh</td>
-                                        <td><p>Sed vitae nulla a est commodo vehicula. Morbi finibus malesuada maximus. Quisque non neque egestas erat scelerisque interdum eget id odio. Pellentesque vitae hendrerit orci, eu congue quam. Donec semper velit ut velit elementum aliquet. Aliquam tincidunt sem in pharetra rutrum. Donec placerat t</p></td>
-                                        <td className="forAdmin"><i className="material-icons right">check</i> </td> {/* for admin*/}
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className="candidatesList pt-3">
+                            {!electionData.voters.length ? <div>
+                                <h4 className="text-danger">Please add a voter to view list</h4>
+                            </div> :
+
+                                <table className="pt-4 mt-4 table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Voter Name</th>
+                                            <th>Description</th>
+                                            <th className="forAdmin">Casted Vote</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            electionData.voters.map(voter => {
+                                                return (
+                                                    <tr key={voter.id}>
+                                                        <td>{voter.id}</td>
+                                                        <td>{voter.name}</td>
+                                                        <td><p>{voter.details}</p></td>
+                                                        <td className="forAdmin">{voter.hasVoted? <i className="material-icons right">check</i>  : <i className="material-icons right">close</i> }</td>
+                                                    </tr>
+                                                )
+                                            }) 
+                                        }
+                                        
+                                    </tbody>
+                                </table>
+
+                            }
+
                         </div>
                     </div>
                 </div>

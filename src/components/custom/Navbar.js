@@ -13,13 +13,14 @@ class Navbar extends Component {
     }
 
     logoutUser(){
-        localStorage.removeItem('loggedInUser')
+        localStorage.removeItem('loggedInUser');
+        localStorage.removeItem('electionData');
         window.location.assign("/");
     }
     render(){
         if(!window.location.pathname || window.location.pathname == '/'){
             if(localStorage.getItem('loggedInUser')){
-                window.location.assign("/dashboard");
+                window.location.assign("/elections");
             }
             return false
         }else{
@@ -30,7 +31,7 @@ class Navbar extends Component {
                 <div>
                      <nav className="navbar navbar-expand-lg navbar-dark bg-dark pl-3 pr-3">
         <div className="container-fluid">
-        <NavLink to="/dashboard" className="navbar navbar-expand-lg ">
+        <NavLink to="/elections" className="navbar navbar-expand-lg ">
                                 <img src="/images/logo.png" height="80" className="mt-1" /></NavLink>
          
             <div className="float-right">

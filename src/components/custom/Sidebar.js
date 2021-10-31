@@ -12,6 +12,9 @@ class Sidebar extends Component {
         })
     }
     render(){
+        if(localStorage.getItem('userType') == 'voter'){
+            return false;
+        } else
             return(
                 <div className="sidebar">
                 <ul className="sidebar-list m-0 p-0">

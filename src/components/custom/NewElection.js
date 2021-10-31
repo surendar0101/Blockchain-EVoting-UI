@@ -1,16 +1,59 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
+import Election from '../../build/Election.json'
+import Web3 from 'web3';
+import {loadBlockChain} from '../Utils';
 
 class NewElection extends Component {
     baseApiUrl = 'https://e-voting-application.herokuapp.com/api/';
 
+    async componentWillMount() {
+        await this.loadWeb3()
+        await loadBlockChain(this);
+        console.info('electionData', this.state.electionData);
+    }
+
+    async loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum)
+            await window.ethereum.enable()
+        }
+        else if (window.web3) {
+            window.web3 = new Web3(window.web3.currentProvider)
+        }
+        else {
+            window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+        }
+    }
+
+    async getElections(){
+
+    }
+
+
     constructor(props) {
         super(props);
         this.state = {
-            election_name: ''
+            account: '',
+            election: null,
+            id: null,
+            electionData: {}
         };
     }
+
+    createElection(){
+        this.state.election.methods.setElection(this.state.election_name.replace(/ /g,"_"), this.state.election_name).send({ from: this.state.account })
+            .once('receipt', (receipt) => {
+                console.log(receipt);
+                if(receipt.status){
+                    console.info('election added successfully!')
+                }
+            })
+    }
+
+
+    
 
     handleInputChange = e => {
         this.setState({
@@ -21,32 +64,30 @@ class NewElection extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { election_name } = this.state;
+        this.state.election.methods.setElection(this.state.election_name.replace(/ /g,"_"), this.state.election_name).send({ from: this.state.account })
+            .once('receipt', (receipt) => {
+                console.log(receipt);
+                if(receipt.status){
+                    console.info('election added successfully!');
+                    window.location.assign('/elections');
+                }
+            })
         console.log(election_name);
-        axios.post(`${this.baseApiUrl}election`, {
-            election_name: election_name
-        })
-        .then(function(response){ 
-            console.info(response);
-            if(response.data.election_id){
-            // election created - navigate to election list UI
-            alert(`Election ${response.data.election_name} created with id: ${response.data.election_id}`)
-            window.location.assign('/elections');
-            }else{
-                alert('Failed to create a new election!')
-            }
-            
-        })
-        .catch(function(err){
-            console.error(err);
-        });
     }
 
     render(){
+
+        // check if elections exist in local truffle - if it does then navigate to election list ui, else let user create one here
+        if(localStorage.getItem('electionData')){
+            window.location.assign('/elections');
+            return false;
+        }
+
         return(
-            <div >
+            <div key={this.state.key}>
                 <Sidebar />
                 <div className="main-container">
-                <div className="card p-2 max-width-800">
+                <div className="card p-4">
                 <form onSubmit={this.handleSubmit} className="row">
                     <div className="logo m-2 p-2 text-center">
                     <h4>No Election Exists: Create a new one</h4>

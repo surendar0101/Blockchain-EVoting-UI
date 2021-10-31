@@ -1,13 +1,37 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { loadBlockChain } from '../Utils';
+import Web3 from 'web3';
+
 
 class Login extends Component {
     baseApiUrl = 'https://e-voting-application.herokuapp.com/api/';
+
+
+    async componentWillMount() {
+        await this.loadWeb3();
+        await loadBlockChain(this);
+    }
+
+    async loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum)
+            await window.ethereum.enable()
+        }
+        else if (window.web3) {
+            window.web3 = new Web3(window.web3.currentProvider)
+        }
+        else {
+            window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+        }
+    }
+
     constructor(props){
         super(props)
         this.state = {
             'username': null,
-            'password': null
+            'password': null,
+            'userType': 'voter'
         }
     }
 
@@ -19,7 +43,29 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { username, password } = this.state;
+        const { username, password, userType } = this.state;
+
+
+
+        if(userType === 'voter'){
+            let voterFound = false;
+            console.info(this.state.electionData.voters[0].name);
+            this.state.electionData.voters.map(voter => {
+                if(voter.name === username){
+                    voterFound = true;
+                }
+            });
+
+            if(voterFound){
+                localStorage.setItem('loggedInUser', username);
+                    localStorage.setItem('userType', userType);
+                    window.location.assign("/newelection");
+            }else{
+                alert('Incorrect Username or Password');
+            }
+            return false;
+        }
+
         axios.post(`${this.baseApiUrl}admin/login`, {
             username: username,
             password: password,
@@ -27,8 +73,8 @@ class Login extends Component {
         .then(function(response){ 
             if(response.data){
                 localStorage.setItem('loggedInUser', username);
-                localStorage.setItem('userType', 'admin');
-                window.location.assign("/dashboard");
+                localStorage.setItem('userType', userType);
+                window.location.assign("/newelection");
             }else{
                 alert('Incorrect Username or Password');
             }
@@ -64,9 +110,9 @@ class Login extends Component {
                     </div>
                     <div className="form-control-group col-md-12  mt-4">
                         <label htmlFor="userType" className="mb-2">Select User Type</label>
-                        <select name="userType" className="input-full-width size-large"  onChange={this.handleInputChange} required >
-                        <option>Voter</option>
-                        <option>Admin</option>
+                        <select name="userType" id="userType" className="input-full-width size-large"  onChange={this.handleInputChange} required defaultValue='voter' >
+                        <option value="voter" >Voter</option>
+                        <option value="admin">Admin</option>
                         </select>
                         
                     </div>

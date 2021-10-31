@@ -135,6 +135,9 @@ input, input:not([type]), input[type=text]:not(.browser-default), input[type=pas
   padding: 20px 20px 20px 320px;
 }
 
+.main-container.voter{
+  padding: 20px;
+}
 ul{
   list-style-type: none;
 }
@@ -145,4 +148,10 @@ ul{
   padding-bottom: 10px;
   margin-bottom: 10px;
 
+}
+.electionIcon{
+  display: block;
+    float: left;
+    min-height: 60px;
+    padding-right: 10px;
 }
