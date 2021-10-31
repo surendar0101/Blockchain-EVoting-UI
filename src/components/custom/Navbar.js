@@ -33,9 +33,10 @@ class Navbar extends Component {
         <div className="container-fluid">
         <NavLink to="/elections" className="navbar navbar-expand-lg ">
                                 <img src="/images/logo.png" height="80" className="mt-1" /></NavLink>
+                                
          
             <div className="float-right">
-                <button onClick={this.logoutUser} className="btn btn-outline-success" href="/" type="submit">Sign Out</button>
+                <button onClick={this.logoutUser} className="btn btn-outline-success" href="/" type="submit">Sign Out {localStorage.getItem('userType').charAt(0).toUpperCase() + localStorage.getItem('userType').slice(1)}</button>
             </div>
         </div>
       </nav>

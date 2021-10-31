@@ -42,15 +42,6 @@ class NewElection extends Component {
         };
     }
 
-    createElection(){
-        this.state.election.methods.setElection(this.state.election_name.replace(/ /g,"_"), this.state.election_name).send({ from: this.state.account })
-            .once('receipt', (receipt) => {
-                console.log(receipt);
-                if(receipt.status){
-                    console.info('election added successfully!')
-                }
-            })
-    }
 
 
     

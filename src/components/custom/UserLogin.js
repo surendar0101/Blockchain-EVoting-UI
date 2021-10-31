@@ -48,21 +48,24 @@ class Login extends Component {
 
 
         if(userType === 'voter'){
-            let voterFound = false;
-            console.info(this.state.electionData.voters[0].name);
-            this.state.electionData.voters.map(voter => {
-                if(voter.name === username){
-                    voterFound = true;
+            if(this.state.electionData.voters){
+                let voterFound = false;
+                this.state.electionData.voters.map(voter => {
+                    if(voter.name === username){
+                        voterFound = true;
+                    }
+                });
+                if(voterFound){
+                    localStorage.setItem('loggedInUser', username);
+                        localStorage.setItem('userType', userType);
+                        window.location.assign("/newelection");
+                }else{
+                    alert('Incorrect Username or Password');
                 }
-            });
+                    }else{
+                        alert('Incorrect Username or Password');
+                    }
 
-            if(voterFound){
-                localStorage.setItem('loggedInUser', username);
-                    localStorage.setItem('userType', userType);
-                    window.location.assign("/newelection");
-            }else{
-                alert('Incorrect Username or Password');
-            }
             return false;
         }
 
