@@ -32,7 +32,7 @@ class Navbar extends Component {
                      <nav className="navbar navbar-expand-lg navbar-dark bg-dark pl-3 pr-3">
         <div className="container-fluid">
         <NavLink to="/elections" className="navbar navbar-expand-lg ">
-                                <img src="/images/logo.png" height="80" className="mt-1" /></NavLink>
+                                <img src="/images/logo.gif" height="80" className="mt-1" /></NavLink>
                                 
          
             <div className="float-right">

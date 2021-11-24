@@ -101,9 +101,10 @@ class Login extends Component {
             <div className="container mt-5 card p-4 max-width-800">
                 <form onSubmit={this.handleSubmit} className="row">
                     <div className="logo m-2 p-2 text-center">
-                    <img src="/images/logo.png" height="150" className="m-2 p-2 bg-primary logo" />
+                        <img src="/images/logo.gif" height="150" className="m-2 p-2 bg-primary logo" />
+                        <h3>E-Voting Portal</h3>
                      </div>   
-                <div className="form-control-group col-md-6 float-left mt-4">
+                    <div className="form-control-group col-md-6 float-left mt-4">
                         <label htmlFor="name">Username</label>
                         <input className="input-full-width size-large" type="text" id="username" name="username" onChange={this.handleInputChange} required/>
                     </div>
